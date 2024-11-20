@@ -70,7 +70,7 @@
     <v-app-bar app flat color="white">
       <!-- Logo -->
       <v-toolbar-title class="text-primary">
-        MORENT
+        MORENOSOFT
       </v-toolbar-title>
 
       <!-- Search Bar -->
