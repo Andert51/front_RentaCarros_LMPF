@@ -1,7 +1,7 @@
 <template>
   <div class="pa-3 ma-3">
     <v-row align="center" justify="center">
-      <h1>Administracion de Clientes</h1>
+      <h1>Administracion de Vehiculos</h1>
     </v-row>
     <v-row align="center" justify="end">
       <v-btn color="#3282B8" @click="dialogAdd = true">

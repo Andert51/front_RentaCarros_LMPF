@@ -9,7 +9,7 @@
       <v-list nav dense>
         <!-- Logo -->
         <v-list-item>
-          <v-img src="logo" max-height="40" contain class="mx-auto" />
+          <v-img src="/logo.jpg" max-height="40" contain class="mx-auto" />
         </v-list-item>
 
         <h1 class="main-menu-title">
@@ -122,7 +122,6 @@
 </template>
 
 <script>
-import logo from '~/assets/images/logo.jpg'
 export default {
   data () {
     return {
@@ -131,11 +130,11 @@ export default {
         { title: 'Car Rent', icon: 'mdi-car', path: '/dashboard/carRent' },
         { title: 'Insight', icon: 'mdi-chart-bar', path: '/dashboard/insight' },
         { title: 'Clients', icon: 'mdi-cash-refund', path: '/dashboard/clients' },
+        { title: 'Cars', icon: 'mdi-car-multiple', path: '/dashboard/cars' },
         { title: 'Inbox', icon: 'mdi-email', path: '/dashboard/inbox' },
         { title: 'Calendar', icon: 'mdi-calendar', path: '/dashboard/calendar' },
         { title: 'Settings', icon: 'mdi-cog', path: '/dashboard/settings' }
-      ],
-      logo
+      ]
     }
   }
 }
