@@ -68,6 +68,7 @@
         <v-card-text>
           <v-form ref="form">
             <v-row dense>
+              <!-- Nombre Completo -->
               <v-col cols="12" sm="6">
                 <v-text-field
                   v-model="newClient.fullname"
@@ -78,6 +79,8 @@
                   required
                 />
               </v-col>
+
+              <!-- Usuario -->
               <v-col cols="12" sm="6">
                 <v-text-field
                   v-model="newClient.username"
@@ -88,6 +91,8 @@
                   required
                 />
               </v-col>
+
+              <!-- Correo Electrónico -->
               <v-col cols="12" sm="6">
                 <v-text-field
                   v-model="newClient.email"
@@ -98,6 +103,8 @@
                   required
                 />
               </v-col>
+
+              <!-- Teléfono -->
               <v-col cols="12" sm="6">
                 <v-text-field
                   v-model="newClient.phone"
@@ -108,15 +115,19 @@
                   required
                 />
               </v-col>
+
+              <!-- Dirección -->
               <v-col cols="12">
                 <v-text-field
                   v-model="newClient.address"
-                  label="Direccion"
+                  label="Dirección"
                   outlined
                   dense
                   class="custom-input"
                 />
               </v-col>
+
+              <!-- Contraseña -->
               <v-col cols="12" sm="6">
                 <v-text-field
                   v-model="newClient.password"
@@ -128,17 +139,45 @@
                   required
                 />
               </v-col>
+
+              <!-- Método de Pago -->
               <v-col cols="12" sm="6">
                 <v-select
-                  v-model="newClient.payment_method"
+                  v-model="newClient.paymentMethod"
                   :items="metodos"
-                  label="Metodo de Pago"
+                  label="Método de Pago"
                   outlined
                   dense
                   class="custom-input"
                   required
                 />
               </v-col>
+
+              <!-- Ciudad -->
+              <v-col cols="12" sm="6">
+                <v-text-field
+                  v-model="newClient.city"
+                  label="Ciudad"
+                  outlined
+                  dense
+                  class="custom-input"
+                  required
+                />
+              </v-col>
+
+              <!-- Película Favorita de Cars -->
+              <v-col cols="12" sm="6">
+                <v-text-field
+                  v-model="newClient.favoriteCars"
+                  label="Película Favorita de Cars"
+                  outlined
+                  dense
+                  class="custom-input"
+                  required
+                />
+              </v-col>
+
+              <!-- Foto de Perfil -->
               <v-col cols="12">
                 <v-file-input
                   v-model="newClient.image"
@@ -211,36 +250,46 @@
                   class="update-input"
                   required
                 />
-              </v-col>
-              <v-col cols="12">
-                <v-text-field
-                  v-model="selectedClient.address"
-                  label="Direccion"
-                  outlined
-                  dense
-                  class="update-input"
-                />
-              </v-col>
-              <v-col cols="12" md="6">
-                <v-select
-                  v-model="selectedClient.payment_method"
-                  :items="metodos"
-                  label="Metodo de Pago"
-                  outlined
-                  dense
-                  class="update-input"
-                  required
-                />
-              </v-col>
-              <v-col cols="12" md="6">
-                <v-file-input
-                  v-model="selectedClient.image"
-                  label="Foto de Perfil"
-                  outlined
-                  dense
-                  prepend-icon="mdi-camera"
-                  class="update-input"
-                />
+                <v-col cols="12" md="6">
+                  <v-text-field
+                    v-model="selectedClient.password"
+                    label="Número de Teléfono"
+                    outlined
+                    dense
+                    class="update-input"
+                    required
+                  />
+                </v-col>
+                <v-col cols="12">
+                  <v-text-field
+                    v-model="selectedClient.address"
+                    label="Direccion"
+                    outlined
+                    dense
+                    class="update-input"
+                  />
+                </v-col>
+                <v-col cols="12" md="6">
+                  <v-select
+                    v-model="selectedClient.payment_method"
+                    :items="metodos"
+                    label="Metodo de Pago"
+                    outlined
+                    dense
+                    class="update-input"
+                    required
+                  />
+                </v-col>
+                <v-col cols="12" md="6">
+                  <v-file-input
+                    v-model="selectedClient.image"
+                    label="Foto de Perfil"
+                    outlined
+                    dense
+                    prepend-icon="mdi-camera"
+                    class="update-input"
+                  />
+                </v-col>
               </v-col>
             </v-row>
           </v-form>
