@@ -4,21 +4,33 @@
       app
       permanent
       class="white"
-      width="260"
+      width="290"
     >
-      <v-list>
+      <v-list nav dense>
         <!-- Logo -->
         <v-list-item>
-          <v-img src="/logo.png" max-height="40" contain class="mx-auto" />
+          <v-img src="logo" max-height="40" contain class="mx-auto" />
         </v-list-item>
+
+        <h1 class="main-menu-title">
+          MAIN MENU
+        </h1>
 
         <v-divider class="my-4" />
 
         <!-- Menu Items -->
         <v-list-item-group>
-          <v-list-item v-for="item in menuItems" :key="item.title" link>
+          <v-list-item
+            v-for="(item, index) in menuItems"
+            :key="index"
+            class="menu-item"
+            link
+            :to="item.path"
+          >
             <v-list-item-icon>
-              <v-icon>{{ item.icon }}</v-icon>
+              <v-icon class="menu-icon">
+                {{ item.icon }}
+              </v-icon>
             </v-list-item-icon>
             <v-list-item-content>
               <v-list-item-title>{{ item.title }}</v-list-item-title>
@@ -42,7 +54,7 @@
               <v-icon>mdi-help-circle</v-icon>
             </v-list-item-icon>
             <v-list-item-content>
-              <v-list-item-title>Help & Center</v-list-item-title>
+              <v-list-item-title>Centro de Ayuda</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
           <v-list-item>
@@ -86,11 +98,15 @@
 
       <!-- Icons -->
       <v-btn icon>
+        <v-icon>mdi-heart</v-icon>
+      </v-btn>
+      <v-btn icon>
         <v-icon>mdi-bell</v-icon>
       </v-btn>
       <v-btn icon>
         <v-icon>mdi-cog</v-icon>
       </v-btn>
+
       <v-avatar size="36">
         <img src="https://randomuser.me/api/portraits/lego/6.jpg" alt="User Avatar">
       </v-avatar>
@@ -106,25 +122,64 @@
 </template>
 
 <script>
+import logo from '~/assets/images/logo.jpg'
 export default {
   data () {
     return {
       menuItems: [
-        { title: 'Dashboard', icon: 'mdi-view-dashboard' },
-        { title: 'Car Rent', icon: 'mdi-car' },
-        { title: 'Insight', icon: 'mdi-chart-bar' },
-        { title: 'Clients', icon: 'mdi-cash-refund' },
-        { title: 'Inbox', icon: 'mdi-email' },
-        { title: 'Calendar', icon: 'mdi-calendar' }
-      ]
+        { title: 'Dashboard', icon: 'mdi-view-dashboard', path: '/dashboard/review' },
+        { title: 'Car Rent', icon: 'mdi-car', path: '/dashboard/carRent' },
+        { title: 'Insight', icon: 'mdi-chart-bar', path: '/dashboard/insight' },
+        { title: 'Clients', icon: 'mdi-cash-refund', path: '/dashboard/clients' },
+        { title: 'Inbox', icon: 'mdi-email', path: '/dashboard/inbox' },
+        { title: 'Calendar', icon: 'mdi-calendar', path: '/dashboard/calendar' },
+        { title: 'Settings', icon: 'mdi-cog', path: '/dashboard/settings' }
+      ],
+      logo
     }
   }
 }
 </script>
 
 <style scoped>
+
+.main-menu-title {
+  font-family: "Josefin Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-size: 14px;
+  font-weight: 500;
+  margin: 16px;
+  color: rgb(83, 81, 81);
+}
+
 .search-bar {
   max-width: 300px;
   margin-right: 16px;
 }
+
+.menu-item {
+  font-family: "Josefin Sans", sans-serif;
+  font-optical-sizing: auto;
+  padding: 5px 11px;
+  margin: 8px 16px;
+  transition: background-color 0.3s;
+}
+
+.menu-item:hover {
+  background-color: #3563E9;
+}
+
+.menu-item .v-list-item__icon {
+  color: purple;
+}
+
+.menu-icon {
+  color: #3563E9;
+  border: #3563E9;
+}
+
+.menu-item:active, .menu-item--active {
+  background-color: #3563E9;
+}
+
 </style>

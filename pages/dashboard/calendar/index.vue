@@ -1,16 +1,16 @@
 <template>
-  <login-form />
+  <div>
+    <h1>Calendar</h1>
+  </div>
 </template>
 
 <script>
-import loginForm from '~/components/ui/loginForm.vue'
 export default {
   components: {
-    loginForm
-  },
-  layout: 'login',
-  middleware: 'auth'
 
+  },
+  layout: 'dashboard',
+  middleware: 'auth'
 }
 </script>
 
