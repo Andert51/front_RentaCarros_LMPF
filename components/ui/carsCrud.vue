@@ -9,17 +9,18 @@
           mdi-plus
         </v-icon>
         <span style="text-transform: none;" class="add-btn-text">
-          Agregar Nuevo Contacto
+          Agregar Nuevo Vehiculo
         </span>
       </v-btn>
     </v-row>
     <v-row align="center" justify="center">
       <v-data-table
         :headers="headers"
-        :items="clients_data"
+        :items="cars_data"
         item-key="name"
         class="styled-table rounded-table"
         dense
+        hide-default-footer
       >
         <template #[`item.actions`]="{ item }">
           <v-tooltip bottom color="orange">
@@ -36,7 +37,7 @@
                 </v-icon>
               </v-btn>
             </template>
-            <span>Actualizar Cliente: {{ item.name }}</span>
+            <span>Actualizar Vehiculo: {{ item.name }}</span>
           </v-tooltip>
           |
           <v-tooltip bottom color="red">
@@ -61,7 +62,7 @@
     <v-dialog v-model="dialogAdd" width="600">
       <v-card class="pa-5 rounded-card" width="600" color="white">
         <v-card-title class="text-h5 text-center mb-4" style="color: #1B262C;">
-          Agregar Nuevo Contacto
+          Agregar Nuevo Vehiculo
         </v-card-title>
 
         <v-card-text>
@@ -69,8 +70,8 @@
             <v-row dense>
               <v-col cols="12" sm="6">
                 <v-text-field
-                  v-model="newClient.fullname"
-                  label="Nombre Completo"
+                  v-model="newClient.brand"
+                  label="Marca del Vehiculo"
                   outlined
                   dense
                   class="custom-input"
@@ -79,8 +80,8 @@
               </v-col>
               <v-col cols="12" sm="6">
                 <v-text-field
-                  v-model="newClient.username"
-                  label="Usuario"
+                  v-model="newClient.carName"
+                  label="Nombre del Vehiculo"
                   outlined
                   dense
                   class="custom-input"
@@ -89,8 +90,8 @@
               </v-col>
               <v-col cols="12" sm="6">
                 <v-text-field
-                  v-model="newClient.email"
-                  label="Correo Electrónico"
+                  v-model="newClient.carYear"
+                  label="Ano del Vehiculo"
                   outlined
                   dense
                   class="custom-input"
@@ -99,49 +100,88 @@
               </v-col>
               <v-col cols="12" sm="6">
                 <v-text-field
-                  v-model="newClient.phone"
-                  label="Teléfono"
+                  v-model="newClient.carModel"
+                  label="Modelo del Vehiculo"
                   outlined
                   dense
+                  class="custom-input"
+                  required
+                />
+              </v-col>
+              <v-col cols="12" sm="6">
+                <v-text-field
+                  v-model="newClient.carDescription"
+                  label="Descripcion del Modelo"
+                  outlined
+                  type="text"
+                  dense
+                  class="custom-input"
+                  required
+                />
+              </v-col>
+              <v-col cols="12" sm="6">
+                <v-text-field
+                  v-model="newClient.type"
+                  label="Tipo de Vehiculo"
+                  outlined
+                  dense
+                  class="custom-input"
+                  required
+                />
+              </v-col>
+              <v-col cols="12" sm="6">
+                <v-text-field
+                  v-model="newClient.capacity"
+                  label="Capacidad del Vehiculo"
+                  outlined
+                  dense
+                  class="custom-input"
+                  required
+                />
+              </v-col>
+              <v-col cols="12" sm="6">
+                <v-text-field
+                  v-model="newClient.gas"
+                  label="Capacidad del tanque"
+                  outlined
+                  dense
+                  class="custom-input"
+                  required
+                />
+              </v-col>
+              <v-col cols="12" sm="6">
+                <v-text-field
+                  v-model="newClient.carColor"
+                  label="Color del Vehiculo"
+                  outlined
+                  dense
+                  type="color"
                   class="custom-input"
                   required
                 />
               </v-col>
               <v-col cols="12">
                 <v-text-field
-                  v-model="newClient.address"
-                  label="Información Adicional"
+                  v-model="newClient.transmission"
+                  label="Transmicion del vehiculo"
                   outlined
                   dense
                   class="custom-input"
                 />
               </v-col>
-              <v-col cols="12" sm="6">
+              <v-col cols="12">
                 <v-text-field
-                  v-model="newClient.password"
-                  label="Contraseña"
-                  type="password"
+                  v-model="newClient.rentPrice"
+                  label="Costo de renta del vehiculo"
                   outlined
                   dense
-                  class="custom-input"
-                  required
-                />
-              </v-col>
-              <v-col cols="12" sm="6">
-                <v-select
-                  v-model="newClient.payment_method"
-                  :items="roles"
-                  label="Rol"
-                  outlined
-                  dense
-                  class="custom-input"
-                  required
+                  class="update-input"
                 />
               </v-col>
               <v-col cols="12">
                 <v-file-input
                   v-model="newClient.image"
-                  label="Foto de Perfil"
+                  label="Imagen Destacada"
                   outlined
                   dense
                   prepend-icon="mdi-camera"
@@ -173,8 +213,59 @@
             <v-row dense>
               <v-col cols="12" md="6">
                 <v-text-field
-                  v-model="selectedClient.fullname"
-                  label="Nombre Completo"
+                  v-model="selectedClient.brand"
+                  label="Marca del Vehiculo"
+                  outlined
+                  dense
+                  class="update-input"
+                  required
+                />
+              </v-col>
+              <v-col cols="12" sm="6">
+                <v-text-field
+                  v-model="newClient.carName"
+                  label="Nombre del Vehiculo"
+                  outlined
+                  dense
+                  class="custom-input"
+                  required
+                />
+              </v-col>
+              <v-col cols="12" sm="6">
+                <v-text-field
+                  v-model="newClient.carModel"
+                  label="Modelo del Vehiculo"
+                  outlined
+                  dense
+                  class="custom-input"
+                  required
+                />
+              </v-col>
+              <v-col cols="12" sm="6">
+                <v-text-field
+                  v-model="newClient.carYear"
+                  label="Ano del Vehiculo"
+                  outlined
+                  dense
+                  class="custom-input"
+                  required
+                />
+              </v-col>
+              <v-col cols="12" sm="6">
+                <v-text-field
+                  v-model="newClient.carDescription"
+                  label="Descripcion del Modelo"
+                  outlined
+                  type="text"
+                  dense
+                  class="custom-input"
+                  required
+                />
+              </v-col>
+              <v-col cols="12" md="6">
+                <v-text-field
+                  v-model="selectedClient.type"
+                  label="Tipo de Vehiculo"
                   outlined
                   dense
                   class="update-input"
@@ -183,8 +274,8 @@
               </v-col>
               <v-col cols="12" md="6">
                 <v-text-field
-                  v-model="selectedClient.username"
-                  label="Nombre de Usuario"
+                  v-model="selectedClient.capacity"
+                  label="Capacidad del Vehiculo"
                   outlined
                   dense
                   class="update-input"
@@ -193,48 +284,47 @@
               </v-col>
               <v-col cols="12" md="6">
                 <v-text-field
-                  v-model="selectedClient.email"
-                  label="Correo Electrónico"
+                  v-model="selectedClient.gas"
+                  label="Capacidad del tanque de gas"
                   outlined
                   dense
                   class="update-input"
                   required
                 />
               </v-col>
-              <v-col cols="12" md="6">
+              <v-col cols="12" sm="6">
                 <v-text-field
-                  v-model="selectedClient.phone"
-                  label="Número de Teléfono"
+                  v-model="newClient.carColor"
+                  label="Color del Vehiculo"
                   outlined
                   dense
-                  class="update-input"
+                  type="color"
+                  class="custom-input"
                   required
                 />
               </v-col>
               <v-col cols="12">
                 <v-text-field
-                  v-model="selectedClient.address"
-                  label="Información Adicional"
+                  v-model="selectedClient.transmission"
+                  label="Tipo de transmicion del vehiculo"
                   outlined
                   dense
                   class="update-input"
                 />
               </v-col>
-              <v-col cols="12" md="6">
-                <v-select
-                  v-model="selectedClient.payment_method"
-                  :items="roles"
-                  label="Rol"
+              <v-col cols="12">
+                <v-text-field
+                  v-model="selectedClient.rentPrice"
+                  label="Costo de renta del vehiculo"
                   outlined
                   dense
                   class="update-input"
-                  required
                 />
               </v-col>
               <v-col cols="12" md="6">
                 <v-file-input
                   v-model="selectedClient.image"
-                  label="Foto de Perfil"
+                  label="Imagen del Vehiculo"
                   outlined
                   dense
                   prepend-icon="mdi-camera"
@@ -257,33 +347,43 @@
     </v-dialog>
     <v-dialog
       v-model="dialogDelete"
-      width="400"
+      max-width="400"
       persistent
     >
-      <v-card>
-        <v-card-title>
-          <v-row align="center" justify="center" class="pa-2 ma-2">
-            Eliminar Cliente
-          </v-row>
+      <v-card class="rounded-lg elevation-3">
+        <!-- Título del diálogo -->
+        <v-card-title class="text-h6 font-weight-bold text-center text-primary">
+          <v-icon color="red" class="mr-2">
+            mdi-car
+          </v-icon>
+          Eliminar Vehiculo
         </v-card-title>
-        <v-card-text>
-          <v-row align="center" justify="center" class="pa-2 ma-2">
-            Esta seguro de eliminar este cliente?
-          </v-row>
+
+        <!-- Mensaje del diálogo -->
+        <v-card-text class="text-center text-body-1 text-gray-600">
+          <v-icon color="blue" class="mb-2" size="36">
+            mdi-account-remove
+          </v-icon>
+          <p>¿Está seguro de que desea eliminar este Vehiculo? Esta acción no se puede deshacer.</p>
         </v-card-text>
-        <v-card-actions>
-          <v-row align="center" justify="center" class="pa-2 ma-2">
-            <v-btn color="warning" @click="dialogDelete=false">
-              <span style="text-transform: none;">
-                Cancelar
-              </span>
-            </v-btn>
-            <v-btn color="red" @click="deleteClient">
-              <span style="text-transform: none;">
-                Eliminar
-              </span>
-            </v-btn>
-          </v-row>
+
+        <!-- Botones de acción -->
+        <v-card-actions class="justify-center">
+          <v-btn
+            color="grey lighten-1"
+            class="text-none rounded-pill"
+            @click="dialogDelete = false"
+          >
+            Cancelar
+          </v-btn>
+          <v-btn
+            color="red"
+            dark
+            class="text-none rounded-pill"
+            @click="deleteClient"
+          >
+            Eliminar
+          </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -294,43 +394,79 @@
 export default {
   data () {
     return {
-      clients_data: [],
+      cars_data: [],
       headers: [
         {
-          text: 'Nombre Completo',
+          text: 'Marca',
           align: 'center',
           sortable: true,
-          value: 'fullname'
+          value: 'brand'
         },
         {
-          text: 'Username',
+          text: 'Tipo',
           align: 'center',
           sortable: true,
-          value: 'username'
+          value: 'type'
         },
         {
-          text: 'ID',
+          text: 'Ano',
           align: 'center',
           sortable: true,
-          value: 'id'
+          value: 'carYear'
         },
         {
-          text: 'Telefono',
+          text: 'Name',
           align: 'center',
           sortable: true,
-          value: 'phone'
+          value: 'carName'
         },
         {
-          text: 'Email',
+          text: 'Modelo',
           align: 'center',
           sortable: true,
-          value: 'email'
+          value: 'carModel'
         },
         {
-          text: 'Address',
+          text: 'Capacidad',
           align: 'center',
           sortable: true,
-          value: 'address'
+          value: 'capacity'
+        },
+        {
+          text: 'Tanque de Gasolina',
+          align: 'center',
+          sortable: true,
+          value: 'gas'
+        },
+        {
+          text: 'Descripcion del Vehiculo',
+          align: 'center',
+          sortable: true,
+          value: 'carDescription'
+        },
+        {
+          text: 'Tipo de Transmision',
+          align: 'center',
+          sortable: true,
+          value: 'transmission'
+        },
+        {
+          text: 'Car Color',
+          align: 'center',
+          sortable: true,
+          value: 'carColor'
+        },
+        {
+          text: 'Imagen',
+          align: 'center',
+          sortable: true,
+          value: 'image'
+        },
+        {
+          text: 'Precio de Renta',
+          align: 'center',
+          sortable: true,
+          value: 'rentPrice'
         },
         {
           text: 'Acciones',
@@ -344,22 +480,32 @@ export default {
       dialogAdd: false,
       dialogUpdate: false,
       newClient: {
-        fullname: '',
-        username: '',
-        email: '',
-        phone: '',
-        address: '',
-        password: '',
-        image: null
+        brand: '',
+        type: '',
+        carModel: '',
+        carName: '',
+        carYear: '',
+        capacity: '',
+        gas: '',
+        transmission: '',
+        carDescription: '',
+        carColor: '',
+        image: null,
+        rentPrice: ''
       },
       selectedClient: {
-        fullname: '',
-        username: '',
-        email: '',
-        phone: '',
-        address: '',
-        password: '',
-        image: null
+        brand: '',
+        type: '',
+        carModel: '',
+        carName: '',
+        carYear: '',
+        capacity: '',
+        gas: '',
+        transmission: '',
+        carDescription: '',
+        carColor: '',
+        image: null,
+        rentPrice: ''
       }
     }
   },
@@ -368,19 +514,19 @@ export default {
   },
   methods: {
     async getEmployees () {
-      const res = await this.$axios.get('/client/all')
+      const res = await this.$axios.get('/car/all')
       if (res && res.data && res.data.success) {
-        this.clients_data = res.data.clients
+        this.cars_data = res.data.cars
       }
       // eslint-disable-next-line no-console
-      console.log('Clientes => ', res)
+      console.log('Vehiculos => ', res)
     },
     deleteClientMid (idDel) {
       this.id = idDel
       this.dialogDelete = true
     },
     async deleteClient () {
-      const res = await this.$axios.delete(`/client/delete/${this.id}`)
+      const res = await this.$axios.delete(`/car/delete/${this.id}`)
       // eslint-disable-next-line no-console
       console.log('@Nint res => ', res)
       if (res && res.data && res.data.success) {
@@ -393,16 +539,21 @@ export default {
       for (const key in this.newClient) {
         formData.append(key, this.newClient[key])
       }
-      const response = await this.$axios.post('/client/add', formData)
+      const response = await this.$axios.post('/car/add', formData)
       if (response.data.success) {
         this.newClient = {
-          fullname: '',
-          username: '',
-          email: '',
-          phone: '',
-          address: '',
-          password: '',
-          image: null
+          brand: '',
+          type: '',
+          carModel: '',
+          carName: '',
+          carYear: '',
+          capacity: '',
+          gas: '',
+          transmission: '',
+          carDescription: '',
+          carColor: '',
+          image: null,
+          rentPrice: ''
         }
         this.dialogAdd = false
         await this.getEmployees()
@@ -417,7 +568,7 @@ export default {
       for (const key in this.selectedClient) {
         formData.append(key, this.selectedClient[key])
       }
-      const response = await this.$axios.put(`/client/update/${this.selectedClient.id}`, formData)
+      const response = await this.$axios.put(`/car/update/${this.selectedClient.id}`, formData)
       if (response.data.success) {
         this.dialogUpdate = false
         await this.getEmployees()

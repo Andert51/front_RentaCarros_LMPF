@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app :dark="isDarkTheme">
     <v-navigation-drawer
       app
       permanent
@@ -38,17 +38,32 @@
           </v-list-item>
         </v-list-item-group>
 
+        <v-divider class="my-4" />
+
+        <v-list-item-group>
+          <v-list-item
+            v-for="(item, index) in extraItems"
+            :key="index"
+            class="menu-item"
+            link
+            :to="item.path"
+          >
+            <v-list-item-icon>
+              <v-icon class="menu-icon">
+                {{ item.icon }}
+              </v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title>{{ item.title }}</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list-item-group>
+
+        <v-divider class="my-4" />
+
         <!-- Preferences Section -->
         <v-divider class="my-4" />
         <v-list-item-group>
-          <v-list-item link>
-            <v-list-item-icon>
-              <v-icon>mdi-cog</v-icon>
-            </v-list-item-icon>
-            <v-list-item-content>
-              <v-list-item-title>Opciones</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
           <v-list-item link>
             <v-list-item-icon>
               <v-icon>mdi-help-circle</v-icon>
@@ -57,32 +72,22 @@
               <v-list-item-title>Centro de Ayuda</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
-          <v-list-item>
+          <v-list-item @click="togleTheme">
             <v-list-item-icon>
               <v-icon>mdi-theme-light-dark</v-icon>
             </v-list-item-icon>
             <v-list-item-content>
-              <v-list-item-title>Dark Mode</v-list-item-title>
+              <v-list-item-title>Barra Superior Obscura</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
         </v-list-item-group>
-
-        <v-divider class="my-4" />
-        <v-list-item link>
-          <v-list-item-icon>
-            <v-icon>mdi-logout</v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title>Log Out</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
       </v-list>
     </v-navigation-drawer>
 
-    <v-app-bar app flat color="white">
+    <v-app-bar app flat :color="isDarkTheme ? 'grey darken-4' : 'white'">
       <!-- Logo -->
-      <v-toolbar-title class="text-primary">
-        MORENOSOFT
+      <v-toolbar-title :class="isDarkTheme ? 'text-white' : 'text-primary'">
+        MORENT
       </v-toolbar-title>
 
       <!-- Search Bar -->
@@ -94,6 +99,7 @@
         placeholder="Search something here"
         prepend-inner-icon="mdi-magnify"
         class="search-bar"
+        :class="isDarkTheme ? 'text-white' : ''"
       />
 
       <!-- Icons -->
@@ -125,6 +131,7 @@
 export default {
   data () {
     return {
+      isDarkTheme: false,
       menuItems: [
         { title: 'Dashboard', icon: 'mdi-view-dashboard', path: '/dashboard/review' },
         { title: 'Car Rent', icon: 'mdi-car', path: '/dashboard/carRent' },
@@ -134,7 +141,20 @@ export default {
         { title: 'Inbox', icon: 'mdi-email', path: '/dashboard/inbox' },
         { title: 'Calendar', icon: 'mdi-calendar', path: '/dashboard/calendar' },
         { title: 'Settings', icon: 'mdi-cog', path: '/dashboard/settings' }
+      ],
+      extraItems: [
+        { title: 'Profile', icon: 'mdi-account', path: '/dashboard/profile' },
+        { title: 'Notifications', icon: 'mdi-bell', path: '/dashboard/notifications' },
+        { title: 'Log Out', icon: 'mdi-logout', path: '/' }
       ]
+    }
+  },
+  methods: {
+    gotoLogOut () {
+      this.$router.push('/auth/login')
+    },
+    togleTheme () {
+      this.isDarkTheme = !this.isDarkTheme
     }
   }
 }
@@ -179,6 +199,16 @@ export default {
 
 .menu-item:active, .menu-item--active {
   background-color: #3563E9;
+}
+
+.text-primary {
+  color: #1976D2 !important;
+}
+.text-white {
+  color: white !important;
+}
+.search-bar .v-input__control {
+  color: inherit !important;
 }
 
 </style>
