@@ -57,7 +57,7 @@
                     contain
                   />
                   <v-row dense>
-                    <v-col v-for="(img, i) in featuredCar.image" :key="i" cols="3">
+                    <v-col v-for="(img, i) in featuredCar.images" :key="i" cols="3">
                       <v-img :src="img" contain class="border rounded" />
                     </v-col>
                   </v-row>
@@ -101,7 +101,7 @@
                       </p>
                     </v-col>
                   </v-row>
-                  <v-btn color="primary" block>
+                  <v-btn color="primary" block @click="navigateToRentForm(featuredCar.id)">
                     Rent Now
                   </v-btn>
                 </v-col>
@@ -118,16 +118,19 @@
                 Reviews
               </v-card-title>
               <v-list>
-                <v-list-item v-for="review in reviews" :key="review.name" class="py-1">
+                <v-list-item v-for="review in formattedReviews" :key="review.id" class="py-1">
                   <v-list-item-avatar>
-                    <img :src="review.avatar" alt="avatar">
+                    <img src="/user01.png">
                   </v-list-item-avatar>
                   <v-list-item-content>
                     <v-list-item-title class="text-h6">
-                      {{ review.name }}
+                      {{ review.clientName }}
                     </v-list-item-title>
                     <v-list-item-subtitle class="text-body-2">
-                      {{ review.text }}
+                      {{ review.reviewText }}
+                    </v-list-item-subtitle>
+                    <v-list-item-subtitle class="text-body-2">
+                      {{ review.createdAt }}
                     </v-list-item-subtitle>
                   </v-list-item-content>
                   <v-rating :value="review.rating" readonly color="amber" dense />
@@ -158,7 +161,7 @@
                     <v-card-subtitle class="text-body-2">
                       {{ car.rentPrice }} / day
                     </v-card-subtitle>
-                    <v-btn color="primary" block small>
+                    <v-btn color="primary" block small @click="navigateToRentForm(car.id)">
                       Rent Now
                     </v-btn>
                   </v-card>
@@ -175,6 +178,7 @@
 <script>
 export default {
   layout: 'dashboard',
+  middleware: 'auth',
   data () {
     return {
       // Filters
@@ -186,14 +190,8 @@ export default {
       featuredCar: [],
 
       // Reviews
-      reviews: [
-        {
-          name: 'Alex Stanton',
-          text: 'Great service from the MORENT app.',
-          rating: 5,
-          avatar: '/user1.jpg'
-        }
-      ],
+      reviews: [],
+      clients: [],
 
       // Recent Cars
       recentCars: [],
@@ -203,8 +201,22 @@ export default {
       filteredCars: []
     }
   },
+  computed: {
+    formattedReviews () {
+      return this.reviews.map((review) => {
+        const client = this.clients.find(client => client.id === review.clientId)
+        return {
+          ...review,
+          clientName: client ? client.fullname : 'Unknown',
+          createdAt: new Date(review.createdAt).toLocaleDateString()
+        }
+      })
+    }
+  },
   mounted () {
     this.fetchData()
+    this.fetchReviews()
+    this.fetchClients()
   },
   methods: {
     async fetchData () {
@@ -213,19 +225,26 @@ export default {
         const res = await this.$axios.get('/car/all')
         if (res && res.data && res.data.success) {
           this.cars = res.data.cars
-          this.filteredCars = this.cars
+          this.filteredCars = res.data.cars
+          // eslint-disable-next-line no-console
+          console.log('Cars fetched:', this.cars)
+
+          // eslint-disable-next-line no-console
+          console.log('Car types:', this.cars.map(car => car.type))
+          // eslint-disable-next-line no-console
+          console.log('Car capacities:', this.cars.map(car => car.capacity))
 
           // Set filters dynamically
-          this.types = [...new Set(this.cars.map(car => car.type))].map(type => ({
+          this.types = [...new Set(this.cars.map(car => this.normalizeString(car.type)))].map(type => ({
             name: type,
             selected: false,
-            count: this.cars.filter(car => car.type === type).length
+            count: this.cars.filter(car => this.normalizeString(car.type) === type).length
           }))
 
-          this.capacities = [...new Set(this.cars.map(car => car.capacity))].map(capacity => ({
+          this.capacities = [...new Set(this.cars.map(car => this.normalizeString(car.capacity)))].map(capacity => ({
             name: capacity,
             selected: false,
-            count: this.cars.filter(car => car.capacity === capacity).length
+            count: this.cars.filter(car => this.normalizeString(car.capacity) === capacity).length
           }))
 
           // Set recent and featured cars
@@ -241,16 +260,58 @@ export default {
         console.error('Error fetching cars:', error)
       }
     },
+    async fetchReviews () {
+      const response = await this.$axios.get('/reviews/all')
+      this.reviews = response.data.reviews
+      // eslint-disable-next-line no-console
+      console.log('Reviews fetched:', response)
+    },
+    async fetchClients () {
+      const response = await this.$axios.get('/client/all')
+      this.clients = response.data.clients
+    },
     filterCars () {
+      // eslint-disable-next-line no-console
+      console.log('Filtering cars...')
+      // eslint-disable-next-line no-console
+      console.log('Selected types:', this.types.filter(type => type.selected))
+      // eslint-disable-next-line no-console
+      console.log('Selected capacities:', this.capacities.filter(capacity => capacity.selected))
+      // eslint-disable-next-line no-console
+      console.log('Price limit:', this.price)
+
       this.filteredCars = this.cars.filter((car) => {
-        const typeMatch = this.types.some(type => type.selected && car.type === type.name)
-        const capacityMatch = this.capacities.some(capacity => capacity.selected && car.capacity === capacity.name)
+        // Normaliza las cadenas para comparación uniforme
+        const carType = this.normalizeString(car.type)
+        const carCapacity = this.normalizeString(car.capacity)
+
+        // Verificar filtros seleccionados
+        const typeSelected = this.types.some(type => type.selected)
+        const capacitySelected = this.capacities.some(capacity => capacity.selected)
+
+        // Coincidencias con normalización
+        const typeMatch = typeSelected
+          ? this.types.some(type => type.selected && carType === this.normalizeString(type.name))
+          : true
+        const capacityMatch = capacitySelected
+          ? this.capacities.some(capacity => capacity.selected && carCapacity === this.normalizeString(capacity.name))
+          : true
         const priceMatch = car.rentPrice <= this.price
 
-        return (!this.types.some(type => type.selected) || typeMatch) &&
-               (!this.capacities.some(capacity => capacity.selected) || capacityMatch) &&
-               priceMatch
+        // Incluir carros si coinciden con las condiciones de los filtros
+        return typeMatch && capacityMatch && priceMatch
       })
+
+      // eslint-disable-next-line no-console
+      console.log('Filtered cars:', this.filteredCars)
+    },
+    normalizeString (str) {
+      if (typeof str !== 'string') { return str } // Si no es una cadena, devolver sin cambios
+      return str.toLowerCase().trim() // Convierte a minúsculas y elimina espacios extras
+    },
+    navigateToRentForm (carId) {
+      // Redirect to the rentForm page with the selected car's ID
+      this.$router.push({ name: 'rentForm', query: { carId } })
     }
   }
 }

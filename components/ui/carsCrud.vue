@@ -91,7 +91,7 @@
               <v-col cols="12" sm="6">
                 <v-text-field
                   v-model="newClient.carYear"
-                  label="Ano del Vehiculo"
+                  label="Año del Vehiculo"
                   outlined
                   dense
                   class="custom-input"
@@ -244,7 +244,7 @@
               <v-col cols="12" sm="6">
                 <v-text-field
                   v-model="newClient.carYear"
-                  label="Ano del Vehiculo"
+                  label="Año del Vehiculo"
                   outlined
                   dense
                   class="custom-input"
@@ -409,7 +409,7 @@ export default {
           value: 'type'
         },
         {
-          text: 'Ano',
+          text: 'Año',
           align: 'center',
           sortable: true,
           value: 'carYear'

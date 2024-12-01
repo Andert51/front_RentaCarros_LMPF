@@ -11,8 +11,8 @@ export default {
   components: {
     clientsCrud
   },
-  layout: 'dashboard'
-  // middleware: 'auth'
+  layout: 'dashboard',
+  middleware: 'auth'
 }
 </script>
 

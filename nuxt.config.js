@@ -27,6 +27,16 @@ export default {
   css: [
   ],
 
+  router: {
+    extendRoutes (routes, resolve) {
+      routes.push({
+        name: 'rentForm',
+        path: '/dashboard/carRent/rentForm',
+        component: resolve(__dirname, 'pages/dashboard/carRent/rentForm/index.vue')
+      })
+    }
+  },
+
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
   ],

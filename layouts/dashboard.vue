@@ -59,8 +59,6 @@
           </v-list-item>
         </v-list-item-group>
 
-        <v-divider class="my-4" />
-
         <!-- Preferences Section -->
         <v-divider class="my-4" />
         <v-list-item-group>
@@ -77,7 +75,15 @@
               <v-icon>mdi-theme-light-dark</v-icon>
             </v-list-item-icon>
             <v-list-item-content>
-              <v-list-item-title>Barra Superior Obscura</v-list-item-title>
+              <v-list-item-title>Modo Obscuro</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item link @click="gotoLogOut">
+            <v-list-item-icon>
+              <v-icon>mdi-logout</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title>LogOut</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
         </v-list-item-group>
@@ -133,7 +139,7 @@ export default {
     return {
       isDarkTheme: false,
       menuItems: [
-        { title: 'Dashboard', icon: 'mdi-view-dashboard', path: '/dashboard/review' },
+        { title: 'Dashboard', icon: 'mdi-view-dashboard', path: '/dashboard' },
         { title: 'Car Rent', icon: 'mdi-car', path: '/dashboard/carRent' },
         { title: 'Insight', icon: 'mdi-chart-bar', path: '/dashboard/insight' },
         { title: 'Clients', icon: 'mdi-cash-refund', path: '/dashboard/clients' },
@@ -144,14 +150,14 @@ export default {
       ],
       extraItems: [
         { title: 'Profile', icon: 'mdi-account', path: '/dashboard/profile' },
-        { title: 'Notifications', icon: 'mdi-bell', path: '/dashboard/notifications' },
-        { title: 'Log Out', icon: 'mdi-logout', path: '/' }
+        { title: 'Notifications', icon: 'mdi-bell', path: '/dashboard/notifications' }
       ]
     }
   },
   methods: {
-    gotoLogOut () {
-      this.$router.push('/auth/login')
+    async gotoLogOut () {
+      await this.$auth.logout()
+      this.$router.push('/')
     },
     togleTheme () {
       this.isDarkTheme = !this.isDarkTheme

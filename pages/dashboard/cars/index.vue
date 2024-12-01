@@ -11,8 +11,8 @@ export default {
   components: {
     carsCrud
   },
-  layout: 'dashboard'
-  // middleware: 'auth'
+  layout: 'dashboard',
+  middleware: 'auth'
 }
 </script>
 

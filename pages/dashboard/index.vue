@@ -9,8 +9,8 @@ export default {
   components: {
 
   },
-  layout: 'dashboard'
-  // middleware: 'auth'
+  layout: 'dashboard',
+  middleware: 'auth'
 }
 </script>
 

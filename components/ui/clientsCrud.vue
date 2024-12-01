@@ -269,6 +269,16 @@
                     class="update-input"
                   />
                 </v-col>
+                <v-col cols="12" sm="6">
+                  <v-text-field
+                    v-model="newClient.city"
+                    label="Ciudad"
+                    outlined
+                    dense
+                    class="custom-input"
+                    required
+                  />
+                </v-col>
                 <v-col cols="12" md="6">
                   <v-select
                     v-model="selectedClient.payment_method"
@@ -310,30 +320,40 @@
       width="400"
       persistent
     >
-      <v-card>
-        <v-card-title>
-          <v-row align="center" justify="center" class="pa-2 ma-2">
-            Eliminar Cliente
-          </v-row>
+      <v-card class="rounded-lg elevation-3">
+        <!-- Título del diálogo -->
+        <v-card-title class="text-h6 font-weight-bold text-center text-primary">
+          <v-icon color="red" class="mr-2">
+            mdi-car
+          </v-icon>
+          Eliminar Cliente
         </v-card-title>
-        <v-card-text>
-          <v-row align="center" justify="center" class="pa-2 ma-2">
-            Esta seguro de eliminar este cliente?
-          </v-row>
+
+        <!-- Mensaje del diálogo -->
+        <v-card-text class="text-center text-body-1 text-gray-600">
+          <v-icon color="blue" class="mb-2" size="36">
+            mdi-account-remove
+          </v-icon>
+          <p>¿Está seguro de que desea eliminar este Cliente? Esta acción no se puede deshacer.</p>
         </v-card-text>
-        <v-card-actions>
-          <v-row align="center" justify="center" class="pa-2 ma-2">
-            <v-btn color="warning" @click="dialogDelete=false">
-              <span style="text-transform: none;">
-                Cancelar
-              </span>
-            </v-btn>
-            <v-btn color="red" @click="deleteClient">
-              <span style="text-transform: none;">
-                Eliminar
-              </span>
-            </v-btn>
-          </v-row>
+
+        <!-- Botones de acción -->
+        <v-card-actions class="justify-center">
+          <v-btn
+            color="grey lighten-1"
+            class="text-none rounded-pill"
+            @click="dialogDelete = false"
+          >
+            Cancelar
+          </v-btn>
+          <v-btn
+            color="red"
+            dark
+            class="text-none rounded-pill"
+            @click="deleteClient"
+          >
+            Eliminar
+          </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -381,6 +401,12 @@ export default {
           align: 'center',
           sortable: true,
           value: 'address'
+        },
+        {
+          text: 'City',
+          align: 'center',
+          sortable: true,
+          value: 'city'
         },
         {
           text: 'Acciones',
