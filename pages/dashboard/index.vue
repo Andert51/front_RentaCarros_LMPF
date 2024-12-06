@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Welcome</h1>
+    <img src="/EstaTodoPerdido.png" alt="">
   </div>
 </template>
 

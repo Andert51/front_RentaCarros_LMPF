@@ -64,7 +64,7 @@ export default {
         // eslint-disable-next-line no-console
         console.log('@res =>', response)
         if (response.data.success) {
-          this.$router.push('/dashboard')
+          this.$router.push('/dashboard/carRent')
         }
       } catch (error) {
         this.errorMessage = error
